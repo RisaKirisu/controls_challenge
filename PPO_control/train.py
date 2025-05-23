@@ -49,7 +49,7 @@ def episode_rollout(model: TinyPhysicsModel, dfs: List[pd.DataFrame], buffer: PP
     jerk = np.abs(np.diff(sim.current_lataccel_histories[:, CONTROL_START_IDX + policy_model.obs_seq_len - 1:], axis=1))
     d_rewards = 1 - deviation / path_boundary
     d_rewards[d_rewards < 0] = 0
-    rewards = torch.from_numpy(d_rewards)
+    rewards = torch.from_numpy(d_rewards)           # TODO: Check how agent gets awarded. Maybe add termination condition
 
     if rewards.shape[1] != episode_len + 1 - policy_model.obs_seq_len:
         print(f"reward length doesn't match episode_len+1: rewards len:{rewards.shape[1]}, episode_len+1:{episode_len + 1 - policy_model.obs_seq_len}") 
